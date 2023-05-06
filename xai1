@@ -1,0 +1,23 @@
+def ex_1_3() -> float:
+    X, y = ex_1_1(False)
+    _, coef = ex_1_2(1.0, False)
+
+    # find min and maximum values of each feature in X
+    Xmin = np.min(X, axis=0) 
+    Xmax = np.max(X, axis=0)
+    
+    # find the feature that has the largest range of values
+    ranges = np.abs(Xmax - Xmin)
+    max_range_feature = ranges.argmax()
+    
+    # determine the predicted values for the two data points when the feature is set to its minimum and maximum values
+    x_min = Xmin.copy()
+    x_min[max_range_feature] = X.iloc[:, max_range_feature].min()
+    y_min = np.dot(x_min, coef)
+    
+    x_max = Xmax.copy()
+    x_max[max_range_feature] = X.iloc[:, max_range_feature].max()
+    y_max = np.dot(x_max, coef)
+    
+    # return the effect difference
+    return np.abs(y_max - y_min)
